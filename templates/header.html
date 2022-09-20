@@ -1,0 +1,18 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+
+<nav class="container container--70">
+    <ul class="nav--actions">
+        <li><a href="{% url 'login' %}#email" class="btn btn--small btn--without-border">Zaloguj</a></li>
+        <li><a href="{% url 'register' %}#name" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+    </ul>
+{% include 'links.html' %}
+</nav>
+
+<script src="{% static 'js/app.js' %}"></script>
