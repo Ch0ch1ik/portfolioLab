@@ -1,5 +1,6 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -30,7 +31,12 @@ class Login(View):
     def post(self, request):
         email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('landing_page')
+        else:
+            return redirect('register')
 
 
 class Register(View):
@@ -49,7 +55,6 @@ class Register(View):
             return redirect('login')
 
 
-
 class AddDonation(View):
     def get(self, request):
         return render(request, 'form.html')
@@ -58,3 +63,9 @@ class AddDonation(View):
 class Confirmation(View):
     def get(self, request):
         return render(request, 'form-confirmation.html')
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('landing_page')
