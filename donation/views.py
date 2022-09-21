@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import View
 
-from donation.models import Donation, Institution
+from donation.models import Donation, Institution, Category
 
 
 # Create your views here.
@@ -55,9 +57,22 @@ class Register(View):
             return redirect('login')
 
 
+@method_decorator(login_required(login_url='/login'), name='dispatch')
 class AddDonation(View):
     def get(self, request):
-        return render(request, 'form.html')
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        return render(request, 'form.html', {'categories': categories, 'institutions': institutions})
+
+
+def get_organizations(request):
+    type_ids = request.GET.getlist('type_ids')
+    if type_ids is not None:
+        institutions = Institution.objects.filter(categories__in=type_ids).distinct()
+    else:
+        institutions = Institution.objects.all()
+    # print(institutions)
+    return render(request, 'institutions.html', {'institutions': institutions})
 
 
 class Confirmation(View):
