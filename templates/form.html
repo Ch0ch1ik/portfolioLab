@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pl">
 {% load static %}
+
+
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -86,7 +88,7 @@
                 {% endfor %}
 
                 <div class="form-group form-group--buttons">
-                    <button type="button" class="btn next-step">Dalej</button>
+                    <button id="button_1" disabled type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
 
@@ -97,13 +99,13 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
-                        <input type="number" name="bags" step="1" min="1"/>
+                        <input id="bags_input" type="number" name="bags" step="1" min="1" required/>
                     </label>
                 </div>
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
-                    <button id="x" type="button" class="btn next-step">Dalej</button>
+                    <button disabled id="x" type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
 
@@ -112,28 +114,26 @@
             <div data-step="3">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
                 <div id="filter_org"></div>
-{#                {% for institution in institutions %}#}
+                {#                {% for institution in institutions %}#}
 
-{#                <div class="form-group form-group--checkbox">#}
-{#                    <label>#}
-{#                        <input type="radio" name="organization" value="{{ institution.id }}"/>#}
-{#                        <span class="checkbox radio"></span>#}
-{#                        <span class="description">#}
-{#                  <div class="title">{{ institution.name }}</div>#}
-{#                  <div class="subtitle">#}
-{#                    {{ institution.description }}#}
-{#                  </div>#}
-{#                </span>#}
-{#                    </label>#}
-{#                </div>#}
-{#                {% endfor %}#}
-
-
+                {#                <div class="form-group form-group--checkbox">#}
+                {#                    <label>#}
+                {#                        <input type="radio" name="organization" value="{{ institution.id }}"/>#}
+                {#                        <span class="checkbox radio"></span>#}
+                {#                        <span class="description">#}
+                {#                  <div class="title">{{ institution.name }}</div>#}
+                {#                  <div class="subtitle">#}
+                {#                    {{ institution.description }}#}
+                {#                  </div>#}
+                {#                </span>#}
+                {#                    </label>#}
+                {#                </div>#}
+                {#                {% endfor %}#}
 
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
-                    <button type="button" class="btn next-step">Dalej</button>
+                    <button id="button_3" type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
 
@@ -168,7 +168,7 @@
                     <div class="form-section--column">
                         <h4>Termin odbioru</h4>
                         <div class="form-group form-group--inline">
-                            <label> Data <input type="date" name="data"/> </label>
+                            <label> Data <input type="date" name="date"/> </label>
                         </div>
 
                         <div class="form-group form-group--inline">
@@ -217,19 +217,19 @@
                         <div class="form-section--column">
                             <h4>Adres odbioru:</h4>
                             <ul>
-                                <li>Prosta 51</li>
-                                <li>Warszawa</li>
-                                <li>99-098</li>
-                                <li>123 456 789</li>
+                                <li id="street">-</li>
+                                <li id="city">-</li>
+                                <li id="postcode">-</li>
+                                <li id="phone">-</li>
                             </ul>
                         </div>
 
                         <div class="form-section--column">
                             <h4>Termin odbioru:</h4>
                             <ul>
-                                <li>13/12/2018</li>
-                                <li>15:40</li>
-                                <li>Brak uwag</li>
+                                <li id="date">-</li>
+                                <li id="time">-</li>
+                                <li id="more_info">-</li>
                             </ul>
                         </div>
                     </div>
@@ -244,8 +244,66 @@
     </div>
 </section>
 
+<script>
+    const boxes = document.querySelectorAll('input[type="checkbox"]');
+    boxes.forEach(box => {
+        box.addEventListener('click', e => {
+        check_if_checked();
+        })
+    })
+
+    function check_if_checked() {
+        const checked_boxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        if (checked_boxes.length !== 0) {
+            const btn1 = document.getElementById('button_1');
+            btn1.removeAttribute('disabled');
+        }else {
+            const btn1 = document.getElementById('button_1');
+            btn1.setAttribute('disabled', '');
+        }
+    }
+
+    const bags = document.querySelectorAll('input[name="bags"]');
+    bags.forEach(box => {
+        box.addEventListener('mouseout', e => {
+        check_if_quantity_over_zero();
+        })
+    })
+
+    function check_if_quantity_over_zero() {
+        const bags = document.getElementById('bags_input');
+        if (bags.value >= 1) {
+            const button = document.getElementById('x');
+            button.removeAttribute('disabled');
+        }else {
+            const button = document.getElementById('x');
+            button.setAttribute('disabled', '');
+        }
+    }
+
+    {#const radios = document.querySelectorAll('input[type="radio"]');#}
+    {#radios.forEach(radio => {#}
+    {#    radio.addEventListener('click', e => {#}
+    {#    console.log(radio)#}
+    {#    check_if_radio_checked();#}
+    {#    })#}
+    {#})#}
+    {##}
+    {#function check_if_radio_checked() {#}
+    {#    const checked_radios = document.querySelector('input[type="radio"]:checked');#}
+    {#    console.log(checked_radios)#}
+    {#    if (checked_radios.length !== 0) {#}
+    {#        const btn3 = document.getElementById('button_3');#}
+    {#        btn3.removeAttribute('disabled');#}
+    {#    }else {#}
+    {#        const btn3 = document.getElementById('button_3');#}
+    {#        btn3.setAttribute('disabled', '');#}
+    {#    }#}
+    {#}#}
+</script>
+
 {% include 'footer.html' %}
 
 </body>
-{#<script src="{% static 'js/app.js' %}"></script>#}
+
 </html>
