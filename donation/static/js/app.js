@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+
+
+
     /**
      * HomePage - Help section
      */
@@ -204,38 +208,64 @@ document.addEventListener("DOMContentLoaded", function () {
                         const button = document.getElementById('x');
                         // console.log(button);
                         button.addEventListener("click", e => {
-                                // e.preventDefault();
-                                show_id();
-                            })
-                        }
-                    if (this.currentStep === 5){
+                            // e.preventDefault();
+                            show_id();
+
+                        })
+
+
+                    }
+                    if (this.currentStep === 5) {
                         const quantity = document.getElementsByTagName('input').namedItem('bags');
                         const ids = get_checked_chexboxes();
                         const radio = get_checked_radio();
                         const categories_names = []
-                        ids.forEach(id=>{
+                        ids.forEach(id => {
                             categories_names.push(document.getElementById(id).innerText)
                         })
 
 
                         const bags_summary = document.getElementById('bags');
-                        if (quantity.value === '1'){
+                        if (quantity.value === '1') {
                             bags_summary.innerText = quantity.value + ' worek z: ' + categories_names;
-                        }else if(parseInt(quantity.value) <= 4){
+                        } else if (parseInt(quantity.value) <= 4) {
                             bags_summary.innerText = quantity.value + ' worki z: ' + categories_names;
-                        }else if(parseInt(quantity.value) > 4){
+                        } else if (parseInt(quantity.value) > 4) {
                             bags_summary.innerText = quantity.value + ' worków z: ' + categories_names;
                         }
 
                         const fund = document.getElementById('fund');
                         fund.innerText = "Dla: " + radio;
 
+                        const address = document.querySelector('input[name="address"]').value;
+                        const city = document.querySelector('input[name="city"]').value;
+                        const postcode = document.querySelector('input[name="postcode"]').value;
+                        const phone = document.querySelector('input[name="phone"]').value;
+                        const date = document.querySelector('input[name="date"]').value;
+                        const time = document.querySelector('input[name="time"]').value;
+                        const more_info = document.querySelector('textarea[name="more_info"]').value;
+
+                        const street_sum = document.getElementById('street');
+                        const city_sum = document.getElementById('city');
+                        const postcode_sum = document.getElementById('postcode');
+                        const phone_sum = document.getElementById('phone');
+                        const date_sum = document.getElementById('date');
+                        const time_sum = document.getElementById('time');
+                        const more_info_sum = document.getElementById('more_info');
+
+                        street_sum.innerText = address;
+                        city_sum.innerText = city;
+                        postcode_sum.innerText = postcode;
+                        phone_sum.innerText = phone;
+                        date_sum.innerText = date;
+                        time_sum.innerText = time;
+                        more_info_sum.innerText = more_info;
+
+
                     }
-                    })
+                })
 
-                });
-
-
+            });
 
 
             // Previous step
@@ -326,6 +356,22 @@ document.addEventListener("DOMContentLoaded", function () {
         ids.push(title.innerText);
         return ids;
     }
+
+
+
+
+
+
+    // function checkValue() {
+    //     const inputs = document.getElementsByTagName("input");
+    //     inputs.forEach(input => {
+    //         if (input.value === "") {
+    //             const att = document.createAttribute("required");
+    //             input.setAttributeNode(att);
+    //         }
+    //     })
+    //
+    // }
 
 
 });
