@@ -65,7 +65,8 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action="{% url 'add_donation' %}" method="post">
+        {% csrf_token %}
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
@@ -160,7 +161,7 @@
 
                         <div class="form-group form-group--inline">
                             <label>
-                                Numer telefonu <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"/>
+                                Numer telefonu <input type="tel" name="phone"/>
                             </label>
                         </div>
                     </div>
@@ -247,8 +248,8 @@
 <script>
     const boxes = document.querySelectorAll('input[type="checkbox"]');
     boxes.forEach(box => {
-        box.addEventListener('click', e => {
-        check_if_checked();
+        box.addEventListener('click', () => {
+            check_if_checked();
         })
     })
 
@@ -257,7 +258,7 @@
         if (checked_boxes.length !== 0) {
             const btn1 = document.getElementById('button_1');
             btn1.removeAttribute('disabled');
-        }else {
+        } else {
             const btn1 = document.getElementById('button_1');
             btn1.setAttribute('disabled', '');
         }
@@ -265,8 +266,8 @@
 
     const bags = document.querySelectorAll('input[name="bags"]');
     bags.forEach(box => {
-        box.addEventListener('mouseout', e => {
-        check_if_quantity_over_zero();
+        box.addEventListener('change', () => {
+            check_if_quantity_over_zero();
         })
     })
 
@@ -275,31 +276,13 @@
         if (bags.value >= 1) {
             const button = document.getElementById('x');
             button.removeAttribute('disabled');
-        }else {
+        } else {
             const button = document.getElementById('x');
             button.setAttribute('disabled', '');
         }
     }
 
-    {#const radios = document.querySelectorAll('input[type="radio"]');#}
-    {#radios.forEach(radio => {#}
-    {#    radio.addEventListener('click', e => {#}
-    {#    console.log(radio)#}
-    {#    check_if_radio_checked();#}
-    {#    })#}
-    {#})#}
-    {##}
-    {#function check_if_radio_checked() {#}
-    {#    const checked_radios = document.querySelector('input[type="radio"]:checked');#}
-    {#    console.log(checked_radios)#}
-    {#    if (checked_radios.length !== 0) {#}
-    {#        const btn3 = document.getElementById('button_3');#}
-    {#        btn3.removeAttribute('disabled');#}
-    {#    }else {#}
-    {#        const btn3 = document.getElementById('button_3');#}
-    {#        btn3.setAttribute('disabled', '');#}
-    {#    }#}
-    {#}#}
+
 </script>
 
 {% include 'footer.html' %}

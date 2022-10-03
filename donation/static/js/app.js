@@ -263,6 +263,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     }
+                    // if (this.currentStep === 6){
+                    //     const btn_submit = document.querySelector('button[type="submit"]');
+                    //     const form = document.getElementById('add_donation_form')
+                    //     btn_submit.addEventListener('click', ()=>{
+                    //         form.submit()
+                    //     })
+                    // }
                 })
 
             });
@@ -320,9 +327,10 @@ document.addEventListener("DOMContentLoaded", function () {
          * TODO: validation, send data to server
          */
         submit(e) {
-            e.preventDefault();
+            // e.preventDefault();
             this.currentStep++;
             this.updateForm();
+            // this.submit()
         }
     }
 

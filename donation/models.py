@@ -6,6 +6,9 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=64)
 
+    def __str__(self):
+        return self.name
+
 
 class Institution(models.Model):
     TYPES_CHOICES = [
@@ -17,6 +20,9 @@ class Institution(models.Model):
     description = models.CharField(max_length=256)
     type = models.CharField(choices=TYPES_CHOICES, default='FUNDACJA', max_length=20)
     categories = models.ManyToManyField(Category)
+
+    def __str__(self):
+        return self.name
 
 
 class Donation(models.Model):
@@ -31,3 +37,5 @@ class Donation(models.Model):
     pick_up_time = models.TimeField(auto_now=False, auto_now_add=False)
     pick_up_comment = models.TextField()
     user = models.ForeignKey(User, blank=True, default=None, on_delete=models.CASCADE)
+    is_taken = models.BooleanField(default=False)
+    collect_date = models.DateTimeField(auto_now=True, null=True)
